@@ -1,66 +1,86 @@
-# Tom y Jerry (y Nibbles también!)
+# Capos
 
-## Parte 1: velocidad máxima
-Hacer un sistema en wollok que modele al gato tom y a los ratones jerry y nibbles 
+Este ejercicio busca ser una primer aproximación al mundo de las colecciones.
 
-El sistema tiene dos casos de uso principales: 
-* Indicar que tom comió un ratón ( aclarando cuál ratón comió)  
-* Indicar que tom corrió una distancia (aclarando cuantos metros). 
 
-Lo que nos interesa de tom es saber la velocidad máxima a la que puede correr.
+## Rolando
 
-La velocidad máxima depende de la energía que tenga. 
+Se trata de un juego en el cual nuestro personaje, Rolando, va recolectando distintos artefactos por el mundo.
+Para la primera versión, existen 4 artefactos:
 
-La energía va a variar según vaya comiendo ratones y corriendo por ahí:
+- Espada del destino
+- Libro de hechizos 
+- Collar divino
+- Armadura de acero valyrio
 
-* Cuando tom corre, su energía disminuye en `cantidad de metros que corrió / 2` 
-* Cuando tom come un ratón, su energía aumenta en `12 + el peso del ratón` 
-* La velocidad máxima de tom es `5 + energía/10`
+Al principio Rolando solo puede llevar hasta 2 artefactos a la vez, 
+pero se espera que a medida que se desarrolla el juego pueda incrementar 
+su capacidad.
 
-Tom comienza con 50 de energía
+Cada vez que rolando se encuentra con un artefacto, y tiene capacidad para llevarlo, lo levanta. 
 
-Existen 2 ratones.
+### Ejemplo:
+ 1. rolando encuentra la espada del destino (la agarra)
+ 2. rolando encuentra el libro de hechizos (la agarra)
+ 3. rolando encuentra el collar divino (no lo agarra, ya que tiene la espada y el libro encima y su capacidad es de 2)
 
-* Jerry, cuyo peso es la `edad * 20`. Al inicio tiene 2 años, pero puede modificarse 
-* Nibbles, cuyo peso es 35, siempre
+## Castillo de piedra
 
-Nota: Acá se trabaja polimorfismo, ordenes, consulta y estado del objeto.
+El castillo de piedra es donde Rolando vive. Es tan grande que allí no hay límite 
+para almacenar artefactos.
+Cuando rolando llega al castillo de piedra guarda en él todos los artefactos que lleva encima, 
+liberando espacio para poder levantar nuevos. 
 
-### Caso de prueba
+### Ejemplo:
+ 1. rolando encuentra la espada del destino (la agarra)
+ 2. rolando encuentra el libro de hechizos (la agarra)
+ 3. rolando llega al castillo de piedra (deja en el castillo la espada y el libro de hechizos)
+ 4. rolando encuentra el collar divino (ahora si lo puede agarrar, ya que liberó espacio)
+ 3. rolando llega al castillo de piedra de nuevo(deja el collar, con lo cual ahora el castillo tiene el collar, la espada y el libro)
+ 
 
-- Al inicio, la velocidad máxima de Tom es 10 (su energía es 50)
-- Si come a Jerry, la velocidad máxima pasa a ser  15.2 (su energía es 102)
-- Si corre 24 metros, entonces su velocidad máxima pasa a ser 14 (su energía es 90)
-- Si come a Nibbles, pasa a tener de velocidad máxima 18.7 (su energía es 137)
-- si jerry cumple años (3 años de edad), y luego tom lo vuelve a comer, pasaría a tener 25.9 (su energia es 209)  
-- si corre 38 metros su velocidad pasa a ser 24 (su energia es 190)
+## Saber los artefactos de Rolando
+ Hay dos preguntas interesantes que debe poder contestar Rolando, por un lado cuales son los artefactos que tiene encima 
+ (ya resuelto en el punto anterior), pero tambien debe saber cuales son todos los artefactos que él posee 
+ sin importar si lo tiene encima o en su castillo.
+ 
+ También se quiere preguntar si posee un artefacto en especial.
+ 
+#Ejemplo: 
+	Si el castillo tiene el collar, la espada. Rolando tiene la armadura. 
+	Entonces rolando posee el collar, la espada y la armadura.
+	El libro no lo posee.
+ 
+## Saber la historia de los encuentros con los artefactos.
+ 
+ Se desea saber el orden en que rolando fue encontrandose los artefactos, independientemente de si los agarró o no.
+ 
+### Ejemplo:
+ 
+ 1. rolando encuentra la espada del destino (la agarra)
+ 2. rolando encuentra el libro de hechizos (la agarra)
+ 3. rolando encuentra el collar divino (no lo agarra, ya que tiene la espada y el libro encima y su capacidad es de 2)
+ 4. rolando llega al castillo de piedra (deja en el castillo la espada y el libro de hechizos)
+ 5. rolando encuentra la armadura de acero valyrio (la agarra)
+ 6. rolando encuentra el collar divino (ahora si lo puede agarrar, ya que liberó espacio)
+ 
+Si consultamos la historia de encuentro con los artefactos debería ser:
+ 1. espada del destino 
+ 2. libro de hechicos
+ 3. collar divino
+ 4. armadura de acero valyrio
+ 5. collar divino (de nuevo!)
+ 
+ 
 
-## Parte 2:  Poder y Querer comer.
 
-Se agrega como requerimientos 
-* Saber si tom puede comer un ratón que está a cierta distancia (indicando la distancia)
-* Saber si tom quiere comer un ratón que está a cierta distancia (indicando el ratón y la distancia)
+  
+ 
 
-Puede comer si tiene energía suficiente para recorrer esa distancia. Es
-decir, la energía que gastaría en correr la distancia es menor a su propia
-energía
 
-Tom quiere comer un ratón que está a cierta distancia si puede comerlo 
-(punto anterior) y además  la energía que va a gastar en correr 
-la distancia hasta el ratón es menor a la energía que va a recibir 
-por comérselo.
 
-Nota: Acá se busca ser capaz de evitar la duplicación de código (subtareas), 
-y manejar correctamente métodos booleanos de consulta
 
-### Casos de prueba
 
-- Al inicio, Tom no puede comer a Jerry si está a 120 metros (ya que gastaría 60 
-de energía y solo tiene 50), tampoco quiere comerlo porque no puede.
 
-- Tom puede comer a Nibbles está a 96 de distancia, (gastaría 48 de energia)
-Pero no lo va a querer comer, porque a pesar de poder, solo recibíra 47 de energia 
-
-- En cambio si Nibbles está a 60 metros, tom lo puede comer (gastaría 30 de energía)
-y también lo va a querer comer (recibiría 47).
+ 
 

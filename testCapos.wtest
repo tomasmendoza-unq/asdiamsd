@@ -1,0 +1,52 @@
+import capos.*
+
+describe "rolando "{
+    test "rolando encontrar la espada del destino (la agarra), encontrar el libro de hechizos (la agarra), encontrar el collar divino (no lo agarra, ya que tiene la espada y el libro encima y su capacidad es de 2)" {
+        rolando.encontrar(espada)
+        rolando.encontrar(libro)
+        rolando.encontrar(collar)
+        assert.equals(#{espada,libro},rolando.mochila())
+    }
+    test "rolando en el castillo de piedra"{
+        rolando.encontrar(espada)
+        rolando.encontrar(libro)
+        rolando.irAlHogar()
+        assert.notThat(rolando.tieneArtefactos())
+
+        rolando.encontrar(collar)
+        rolando.irAlHogar()
+        assert.notThat(rolando.tieneArtefactos())
+
+        assert.equals(#{espada,libro,collar}, castillo.cofre())
+    }
+
+    test "saber los artefactos de Ronaldo"{
+        castillo.cofre(#{collar,espada})
+
+        rolando.mochila(#{armadura})
+
+        assert.equals(#{collar,espada,armadura},rolando.posesiones())
+
+        assert.that(rolando.tiene(collar))
+        assert.that(rolando.tiene(espada))
+        assert.that(rolando.tiene(armadura))
+        assert.notThat(rolando.tiene(libro))
+    }
+
+    test "Saber la historia de los encuentros con los artefactos"{
+        rolando.encontrar(espada)
+        rolando.encontrar(libro)
+        rolando.encontrar(collar)
+        assert.equals(#{espada,libro},rolando.mochila())
+
+        rolando.irAlHogar()
+        
+        rolando.encontrar(armadura)
+
+        rolando.encontrar(collar)
+
+        assert.equals([espada,libro,collar,armadura,collar], rolando.historial())
+
+        assert.equals(armadura, rolando.artefactoEnHistorial(3))
+    }
+} 

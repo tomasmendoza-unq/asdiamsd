@@ -1,0 +1,29 @@
+import wollok.game.*
+import personajes.pacman.*
+import escenarios.pantallas.pantallaInicial.*
+import managers.posiciones.*
+import estados.estado.*
+import escenarios.levels.levelPrueba.*
+import managers.levelManager.*
+
+
+describe "Fantasmas y pacman" {
+
+    method initialize(){
+        game.addVisual(mainScreen)
+        levelManager.levelActual(levelPrueba)
+        mainScreen.pressEnter()
+    }
+
+    test "Se vuelve superpacman" {
+        const helado = game.getObjectsIn(game.at(2,2))
+        pacman.cambioDireccion(izquierda)
+        pacman.moverse()
+        helado.get(0).colisionarConPacman(pacman)
+        assert.equals(superPacman ,pacman.estado())
+    }
+
+    
+
+}
+

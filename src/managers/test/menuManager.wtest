@@ -1,0 +1,21 @@
+import managers.menuManager.*
+import escenarios.pantallas.pantallaInicial.*
+import escenarios.pantallas.pantallaFin.*
+import estados.estadosGame.*
+import personajes.pacman.*
+
+describe "Test menu"{
+    method initializer(){
+        game.addVisual(mainScreen)
+    }
+
+    test "Paso al estado jugando"{
+        menuManager.pressEnter()
+        assert.equals(jugando, menuManager.estado())
+    }
+
+    test "Perdio el juego"{
+        pacman.asesinado()
+        assert.equals(gameOver, menuManager.estado())
+    }
+}

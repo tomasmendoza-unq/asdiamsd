@@ -1,0 +1,12 @@
+import escenarios.pantallas.pantallaInicial.*
+describe "pantalla test"{
+    method initializer(){
+        game.addVisual(mainScreen)
+    }
+    test "Inicia el juego desde la pantalla principal"{
+        assert.notThat(mainScreen.inicioNivel())
+        // mainScreen.pressEnter()
+        // assert.that(mainScreen.inicioNivel())
+        
+    }
+}
